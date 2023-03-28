@@ -36,7 +36,7 @@ const mutations = {
 }
 // 执行异步
 const actions = {
-  // 定义登录login action 也需要参数 调用action时 传递过来的参数
+  // 定义登录 login action 也需要参数 调用action时 传递过来的参数
   async login(context, data) {
     const result = await login(data) // 实际上就是一个promise  result就是执行的结果
     // axios默认给数据加了一层data
@@ -56,6 +56,14 @@ const actions = {
     context.commit('setUserInfo', baseResult) // 提交mutations
     // 加一个点睛之笔  这里这一步，暂时用不到，但是请注意，这给我们后边会留下伏笔
     return baseResult
+  },
+
+  // 登出 logOut action
+  logout(context) {
+    // 删除token
+    context.commit('removeToken') // 不仅仅删除了vuex中的 还删除了缓存中的
+    // 删除用户资料
+    context.commit('removeUserInfo') // 删除用户信息
   }
 }
 export default {
