@@ -43,6 +43,8 @@ service.interceptors.request.use(config => {
 }
 ) // 请求拦截器
 
+// token超时的错误码是**`10002`** 通过查询接口文档得知
+
 service.interceptors.response.use(response => {
   // axios默认添加了一层data
   const { success, message, data } = response.data
@@ -55,7 +57,14 @@ service.interceptors.response.use(response => {
     return Promise.reject(new Error(message))
   }
 }, error => {
-  Message.error(error.message) // 提示错误消息
+  //  error 信息 里面 response 的对象
+  if (error.response && error.response.data && error.response.data.code === 10002) {
+    // 当等于10002的时候 表示 后端告诉我token超时了
+    store.dispatch('user/logout') // 登出action 删除token
+    router.push('/login')
+  } else {
+    Message.error(error.message) // 提示错误消息
+  }
   return Promise.reject(error) // 返回执行错误让当前的执行链跳出成功 直接进入catch
 }) // 响应拦截器
 
