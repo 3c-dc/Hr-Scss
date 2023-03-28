@@ -1,5 +1,5 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { login, getUserInfo } from '@/api/user'
+import { login, getUserInfo, getUserDetailById } from '@/api/user'
 // 状态
 // 初始化的时候从缓存中读取状态 并赋值到初始化的状态上
 // Vuex的持久化 如何实现? => Vuex和前端缓存相结合
@@ -48,9 +48,14 @@ const actions = {
 
   // 获取用户资料getUserInfo action
   async getUserInfo(context) {
-    const result = await getUserInfo() // 获取返回值
-    context.commit('setUserInfo', result) // 将整个的个人信息设置到用户的Vuex数据
-    return result // 这里返回 为以后实现其他功能提供方便
+    const result = await getUserInfo() // 获取返回值 result就是用户的基本资料
+    const baseInfo = await getUserDetailById(result.userId) // 为了获取头像
+    const baseResult = { ...result, ...baseInfo } // 将两个接口结果合并
+    // 此时已经获取到了用户的基本资料 迫不得已 为了头像再次调用一个接口
+
+    context.commit('setUserInfo', baseResult) // 提交mutations
+    // 加一个点睛之笔  这里这一步，暂时用不到，但是请注意，这给我们后边会留下伏笔
+    return baseResult
   }
 }
 export default {
