@@ -1,5 +1,7 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { login, getUserInfo, getUserDetailById } from '@/api/user'
+import { setTimeStamp } from '@/utils/auth'
+
 // 状态
 // 初始化的时候从缓存中读取状态 并赋值到初始化的状态上
 // Vuex的持久化 如何实现? => Vuex和前端缓存相结合
@@ -37,6 +39,7 @@ const mutations = {
 // 执行异步
 const actions = {
   // 定义登录 login action 也需要参数 调用action时 传递过来的参数
+  // async 标记的函数其实就是一个异步函数 -> 本质是还是 一个promise
   async login(context, data) {
     const result = await login(data) // 实际上就是一个promise  result就是执行的结果
     // axios默认给数据加了一层data
@@ -44,6 +47,8 @@ const actions = {
     // 现在有用户token
     // actions 修改state 必须通过mutations
     context.commit('setToken', result)
+    // 写入时间戳
+    setTimeStamp() // 将当前的最新时间写入缓存
   },
 
   // 获取用户资料getUserInfo action

@@ -7,6 +7,11 @@ import axios from 'axios'
 // 导入 Vuex store
 import store from '@/store'
 
+// 导入 路由 router
+import router from '@/router'
+import { getTimeStamp } from '@/utils/auth'
+const TimeOut = 5400 // 定义超时时间 一个半小时 60*90=5400 S
+
 const service = axios.create({
   // 如果执行npm run dev的值为/api 正确 /api这个代理知识给开发环境配置的代理
   // 如果执行npm run build的值为/prod-api 没关系 运维应该在上线的时候 给你配置上/prod-api的代理
@@ -16,8 +21,20 @@ const service = axios.create({
 
 service.interceptors.request.use(config => {
   // 在这个位置需要统一的去注入token
+  // config 是请求的配置信息
+  // 注入token
   if (store.getters.token) {
     // 如果token存在,注入token
+    // 只有在有token的情况下 才有必要去检查时间戳是否超时
+    // 只有在有token的情况下 才有必要去检查时间戳是否超时
+    if (IsCheckTimeOut()) {
+      // 如果它为true表示 过期了
+      // token没用了 因为超时了
+      store.dispatch('user/logout') // 登出操作
+      // 跳转到登录页
+      router.push('/login')
+      return Promise.reject(new Error('token超时了'))
+    }
     config.headers['Authorization'] = `Bearer ${store.getters.token}`
   }
   return config // 必须返回配置 不然相当于没有配置
@@ -41,4 +58,15 @@ service.interceptors.response.use(response => {
   Message.error(error.message) // 提示错误消息
   return Promise.reject(error) // 返回执行错误让当前的执行链跳出成功 直接进入catch
 }) // 响应拦截器
+
+// 是否超时
+// 超时逻辑  (当前时间  - 缓存中的时间) 是否大于 时间差
+function IsCheckTimeOut() {
+  var currentTime = Date.now() // 当前时间戳
+  var timeStamp = getTimeStamp() // 缓存时间戳
+  // console.log((currentTime - timeStamp) / 1000)
+  // 获取时间是 Date.now() = ms 毫秒转变为秒要除以1000
+  return (currentTime - timeStamp) / 1000 > TimeOut
+}
+
 export default service // 导出axios实例
