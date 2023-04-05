@@ -50,12 +50,10 @@
                       <el-dropdown-item>添加子部门</el-dropdown-item>
                       <el-dropdown-item>编辑部门</el-dropdown-item>
                       <el-dropdown-item>删除部门</el-dropdown-item>
-
                     </el-dropdown-menu>
                   </el-dropdown>
                 </el-col>
               </el-row>
-
             <!-- 右侧内容 -->
             </el-col>
           </el-row>
@@ -74,6 +72,7 @@ export default {
         { name: '人事部', manager: '孙权' }],
       defaultProps: {
         label: 'name' // 表示 从这个属性显示内容
+        // 修改补充2023/4/5
       }
     }
   }
