@@ -11,7 +11,10 @@
         <el-input v-model="formData.code" style="width:80%" placeholder="1-50个字符" />
       </el-form-item>
       <el-form-item label="部门负责人" prop="manager">
-        <el-select style="width:80%" placeholder="请选择" />
+        <el-select v-model="formData.manager" style="width:80%" placeholder="请选择" @focus="getEmployeeSimple">
+          <!-- 需要循环生成选项   这里做一下简单的处理 显示的是用户名 存的也是用户名-->
+          <el-option v-for="item in peoples" :key="item.id" :label="item.username" :value="item.username" />
+        </el-select>
       </el-form-item>
       <el-form-item label="部门介绍" prop="introduce">
         <el-input v-model="formData.introduce" style="width:80%" placeholder="1-300个字符" type="textarea" :rows="3" />
@@ -31,6 +34,8 @@
 <script>
 import { getDepartments } from '@/api/departments'
 // // 首先获取最新的组织架构数据
+import { getEmployeeSimple } from '@/api/employees'
+// // 获取员工简单列表数据
 // 现在定义一个函数 这个函数的目的是 去找 同级部门下 是否有重复的部门名称
 const checkNameRepeat = async(rule, value, callback) => {
   /**
@@ -67,6 +72,8 @@ export default {
   },
   data() {
     return {
+      // 接收获取的员工简单列表的数据
+      peoples: [],
       // 定义表单数据
       formData: {
         name: '', // 部门名称
@@ -90,6 +97,12 @@ export default {
         introduce: [{ required: true, message: '部门介绍不能为空', trigger: 'blur' },
           { trigger: 'blur', min: 1, max: 300, message: '部门介绍要求1-50个字符' }]
       }
+    }
+  },
+  methods: {
+    // 获取员工简单列表数据
+    async  getEmployeeSimple() {
+      this.peoples = await getEmployeeSimple()
     }
   }
 }
