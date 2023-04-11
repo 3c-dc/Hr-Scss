@@ -62,13 +62,31 @@ npm run lint
 npm run lint -- --fix
 ```
 
-commit ae23ee1533c235d90c55ba6d67e3be94bc84f652 (HEAD -> master)
+commit 767385cac788b29a8b6a266f1ffa286e2e7a25f7 (HEAD -> master, origin/master, origin/HEAD)
+Author: dc <1304561865@qq.com>
+Date:   Tue Apr 11 13:58:05 2023 +0800
+
+    完成新增功能-提交-取消-关闭
+
+commit ecd406590508c43bf8427515c6eaf32344a9493a
+Author: dc <1304561865@qq.com>
+Date:   Tue Apr 11 11:31:49 2023 +0800
+
+    完成新增部门功能-部门负责人数据
+
+commit bb8bcb925b0588e04c25e7628dc6c6777c3e2bb1
+Author: dc <1304561865@qq.com>
+Date:   Tue Apr 11 09:26:47 2023 +0800
+
+    完成新增部门的规则校验(自定义校验部门名称有BUG后续解决)
+
+commit ae23ee1533c235d90c55ba6d67e3be94bc84f652
 Author: dc <1304561865@qq.com>
 Date:   Mon Apr 10 23:42:03 2023 +0800
 
     完成新增部门功能-建立组件
 
-commit 0e0e5ad5db9f22a81aec3b20e1a2c5c0a1b82379 (origin/master, origin/HEAD)
+commit 0e0e5ad5db9f22a81aec3b20e1a2c5c0a1b82379
 Author: dc <1304561865@qq.com>
 Date:   Fri Apr 7 15:46:34 2023 +0800
 
