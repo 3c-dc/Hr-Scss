@@ -1,6 +1,14 @@
 <template>
   <div class="dashboard-container">
     <div class="dashboard-text">name: {{ name }}</div>
+    <PageTools :show-before="true">
+      <template v-slot:before>
+        <el-button>321</el-button>
+      </template>
+      <template v-slot:after>
+        <el-button>123</el-button>
+      </template>
+    </PageTools>
   </div>
 </template>
 
