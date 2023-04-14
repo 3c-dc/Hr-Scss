@@ -7,7 +7,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 
 import '@/styles/index.scss' // global css
-
+import Component from '@/components'
 import App from './App'
 import store from './store'
 import router from './router'
@@ -26,7 +26,7 @@ Object.keys(directives).forEach(key => {
 Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
-
+Vue.use(Component) // 注册自己的插件
 Vue.config.productionTip = false
 
 new Vue({
