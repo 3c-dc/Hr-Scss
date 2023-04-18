@@ -9,7 +9,8 @@
               <template slot="after">
                 <el-button size="small" type="warning">导入</el-button>
                 <el-button size="small" type="danger">导出</el-button>
-                <el-button size="small" type="primary">新增员工</el-button>
+                <!-- <el-button size="small" type="primary">新增员工</el-button> -->
+                <el-button icon="plus" type="primary" size="small" @click="showDialog = true">新增员工</el-button>
               </template>
             </page-tools>
             <!-- 放置表格和分页 -->
@@ -65,6 +66,8 @@
           </div>
         </div>
       </template>
+      <!-- 放置新增组件 -->
+      <AddDemployee :show-dialog.sync="showDialog" />
     </div>
   </div>
 </template>
@@ -72,7 +75,12 @@
 <script>
 import { getEmployeeList, delEmployee } from '@/api/employees'
 import EmployeeEnum from '@/api/constant/employees'
+import AddDemployee from './components/add-employee'
+
 export default {
+  components: {
+    AddDemployee
+  },
   data() {
     return {
       loading: false,
@@ -81,7 +89,8 @@ export default {
         page: 1, // 当前页码
         size: 10,
         total: 0 // 总数
-      }
+      },
+      showDialog: false // 控制新增员工的弹窗
     }
   },
   created() {
