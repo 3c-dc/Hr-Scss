@@ -102,22 +102,29 @@ export default {
         }, (err, data) => {
           // data返回数据之后 应该如何处理
           console.log(err || data)
+          // console.log(data.Location)
+          // console.log(this.fileList)
           // data中有一个statusCode === 200 的时候说明上传成功
-          if (!err && data.statusCode === 200) {
+          if (data.statusCode === 200) {
+            const urlImg = `https://${data.Location}`
+            console.log(urlImg)
+            this.fileList = [{ url: 'http://' + data.Location, upload: true }]
+            console.log(this.fileList)
+
             //   此时说明文件上传成功  要获取成功的返回地址
             // fileList才能显示到上传组件上 此时我们要将fileList中的数据的url地址变成 现在上传成功的地址
             // 目前虽然是一张图片 但是请注意 我们的fileList是一个数组
             // 需要知道当前上传成功的是哪一张图片
-            this.fileList = this.fileList.map(item => {
-              // 去找谁的uid等于刚刚记录下来的id
-              if (item.uid === this.currentFileUid) {
-                // 将成功的地址赋值给原来的url属性
-                return { url: 'http://' + data.Location, upload: true }
-                // upload 为true 表示这张图片已经上传完毕 这个属性要为我们后期应用的时候做标记
-                // 保存  => 图片有大有小 => 上传速度有快又慢 =>要根据有没有upload这个标记来决定是否去保存
-              }
-              return item
-            })
+            // this.fileList = this.fileList.map(item => {
+            //   // 去找谁的uid等于刚刚记录下来的id
+            //   if (item.uid === this.currentFileUid) {
+            //     // 将成功的地址赋值给原来的url属性
+            //     return { url: 'http://' + data.Location, upload: true }
+            //     // upload 为true 表示这张图片已经上传完毕 这个属性要为我们后期应用的时候做标记
+            //     // 保存  => 图片有大有小 => 上传速度有快又慢 =>要根据有没有upload这个标记来决定是否去保存
+            //   }
+            //   return item
+            // })
             // 将上传成功的地址 回写到了fileList中 fileList变化  =》 upload组件 就会根据fileList的变化而去渲染视图
           }
         })
