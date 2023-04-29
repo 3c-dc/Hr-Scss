@@ -18,6 +18,20 @@
               <el-table border :data="list">
                 <el-table-column label="序号" sortable="" type="index" />
                 <el-table-column label="姓名" sortable="" prop="username" />
+                <el-table-column label="头像" align="center" width="120px">
+                  <!-- 具名插槽 两种用法 -->
+                  <template v-slot="{row}">
+                    <!-- 第一种 v-solt -->
+                    <img
+                      v-imagerror="require('@/assets/common/bigUserHeader.png')"
+                      :src="row.staffPhoto"
+                      style="border-radius: 50%; width: 100px; height: 100px"
+                    >
+                  </template>
+                  <!-- <template slot-scope="{row}">
+                    第二种 solt-scope
+                  </template> -->
+                </el-table-column>
                 <el-table-column label="工号" sortable="" prop="workNumber" />
 
                 <!-- 格式化聘用形式 -->
