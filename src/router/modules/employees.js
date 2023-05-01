@@ -18,11 +18,29 @@ export default {
       }
     },
     {
-      path: 'detail/:id', // query传参为'detail/id?id=**' 动态路由传参 param?
+      path: 'detail/:id',
+      // query传参为'detail/?id={$id}' 动态路由传参
+      // param? 直接在地址斜杠后加 :to="`/employees/print/${userId}?type=personal`"
+      //   data() {
+      //     return {
+      //       formData: {},
+      //       userId: this.$route.params.id,
+      //       type: this.$route.query.type // 打印类型
+      //     }
+      //   },
       component: () => import('@/views/employees/detail'),
       hidden: true, // 不在左侧菜单显示
       meta: {
         title: '员工详情' // 标记当前路由规则的中文名称 后续在做左侧菜单时 使用
+      }
+    },
+    {
+      path: 'print/:id', // 二级默认路由
+      component: () => import('@/views/employees/print'), // 按需加载
+      hidden: true,
+      meta: {
+        title: '打印', // 标记当前路由规则的中文名称 后续在做左侧菜单时 使用
+        icon: 'people'
       }
     }
   ]
