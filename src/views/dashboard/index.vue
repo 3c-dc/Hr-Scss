@@ -5,11 +5,12 @@
       <div>
         <div class="fl headL">
           <div class="headImg">
-            <img src="@/assets/common/head.jpg">
+            <!-- <img :src="userInfo.staffPhoto"> -->
+            <img v-imagerror="defaultImg" :src="userInfo.staffPhoto">
           </div>
           <div class="headInfoTip">
-            <p class="firstChild">早安，管理员，祝你开心每一天！</p>
-            <p class="lastChild">早安，管理员，祝你开心每一天！</p>
+            <p class="firstChild">早安，{{ userInfo.username }}，祝你开心每一天！</p>
+            <p class="lastChild">{{ userInfo.username }}   |  {{ userInfo.companyName }}-{{ userInfo.departmentName }}</p>
           </div>
         </div>
         <div class="fr" />
@@ -120,12 +121,21 @@
 
 <script>
 import { mapGetters } from 'vuex'
-
+import { createNamespacedHelpers } from 'vuex'
+const { mapState } = createNamespacedHelpers('user')
 export default {
   name: 'Dashboard',
+  data() {
+    return {
+      defaultImg: require('@/assets/common/bigUserHeader.png')
+    }
+  },
   computed: {
     ...mapGetters([
       'name'
+    ]),
+    ...mapState([
+      'userInfo'
     ])
   }
 }
