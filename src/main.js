@@ -16,6 +16,8 @@ import * as filters from '@/filters' // 引入工具类
 import '@/icons' // icon
 import '@/permission' // permission control
 
+import CheckPermission from '@/mixin/checkPermission'
+
 // 注册自定义指令
 // 遍历所有的导出的指令对象 完成自定义全局注册
 Object.keys(directives).forEach(key => {
@@ -35,6 +37,9 @@ Vue.use(ElementUI, { locale })
 // Vue.use(ElementUI)
 Vue.use(Component) // 注册自己的插件
 Vue.config.productionTip = false
+
+// 导入mixin 全局混入检查对象 权限检查
+Vue.mixin(CheckPermission) // 表示所有的组件都有了检查的方法
 
 new Vue({
   el: '#app',
